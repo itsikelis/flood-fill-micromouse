@@ -10,8 +10,10 @@ class Algorithm
 {
 private:
     
+    ///  The absolute path to the maze's solution.
     std::string path;
 
+    ///  The Coordinate struct is used to store the coordinates of the not-yet-processed cells.
     struct Coordinate
     {
         int coordX;
@@ -20,6 +22,7 @@ private:
         Coordinate(double paramx, double paramy) : coordX(paramx), coordY(paramy) {}
     };
 
+    ///  A queue to store the cells that still need to be processed.
     std::queue<Coordinate> processQueue;
 
 public:
@@ -74,9 +77,16 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
 
     while (!processQueue.empty())
     {   
+        ///  Get the next cell to be processed and remove it from the queue.
         Coordinate cuurentCell = processQueue.front();
         processQueue.pop();
-        
 
+        ///  Check its northern neighbour.
+
+        ///  Check its southern neighbour.
+
+        ///  Check its eastern neighbour.
+
+        ///  Check its western neighbour.
     }
 }

@@ -23,22 +23,25 @@ private:
 
 public:
 
-    ///  Create cell with no walls initially
+    ///  Create cell with no walls initially.
     Cell();
 
-    ///  Deconstructor
+    ///  Deconstructor.
     ~Cell();
 
-    ///  Used by Maze.hpp to set the cell's coordinates
+    ///  Used by Maze.hpp to set the cell's coordinates.
     void setCoords(int new_x, int new_y);
 
-    ///  Used by Maze.hpp to set the Manhattan distance of cell from current coordinates
+    ///  Used by Maze.hpp to get the cell's floodVal.
+    int getFloodVal();
+
+    ///  Used by Maze.hpp to set the cell's distance from current coordinates.
     void setFloodVal(int val);
 
-    ///  Used by Maze.hpp to set a found wall to the corresponding cell
+    ///  Used by Maze.hpp to set a found wall to the corresponding cell.
     void setWall(int orientation);
 
-    ///  Used by Maze.hpp to set the visited flag to each cells
+    ///  Used by Maze.hpp to set the visited flag to each cells.
     void setVisited(int val);
 };
 
@@ -61,6 +64,11 @@ void Cell::setCoords(int new_x, int new_y)
 {
     x = new_x;
     y = new_y;
+}
+
+int Cell::getFloodVal()
+{
+    return floodVal;
 }
 
 void Cell::setFloodVal(int val)

@@ -20,11 +20,14 @@ public:
     ~Maze();
 
     ///  Used by the robot to place a discovered wall to the maze cell.
-    void placeWall(int cell_x, int cell_y, int orientation); 
+    void placeWall(int cell_x, int cell_y, int orientation);
 
+    int getFloodVal(int x, int y);
     void setFloodVal(int val, int x, int y);
 
     void setVisited(int val, int x, int y);
+
+    void printMazeFloodVal();
 };
 
 Maze::Maze()
@@ -94,6 +97,11 @@ void Maze::placeWall(int cell_x, int cell_y, int orientation)
 
 }
 
+int Maze::getFloodVal(int x, int y)
+{
+    mazeCells[x][y].getFloodVal();
+}
+
 void Maze::setFloodVal(int val,int x, int y)
 {
     mazeCells[x][y].setFloodVal(val);
@@ -102,4 +110,16 @@ void Maze::setFloodVal(int val,int x, int y)
 void Maze::setVisited(int val, int x, int y)
 {
     mazeCells[x][y].setVisited(val);
+}
+
+void Maze::printMazeFloodVal()
+{
+    for(int i = 0; i <= CELL_COUNT; i++)
+    {
+        for(int j = 0; i <= CELL_COUNT; i++)
+        {
+            std::cout << " " << mazeCells[i][j].getFloodVal() << " " << "\t";
+        }
+        std::cout << std::endl;
+    }
 }
