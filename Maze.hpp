@@ -21,6 +21,10 @@ public:
 
     ///  Used by the robot to place a discovered wall to the maze cell.
     void placeWall(int cell_x, int cell_y, int orientation); 
+
+    void setFloodVal(int val, int x, int y);
+
+    void setVisited(int val, int x, int y);
 };
 
 Maze::Maze()
@@ -61,30 +65,28 @@ void Maze::placeWall(int cell_x, int cell_y, int orientation)
 
             if (cell_x != 0 && cell_x != CELL_COUNT - 1)
             {
-                mazeCells[cell_x][cell_y].setWall(orientation);
-                mazeCells[cell_x][cell_y].setWall();
+                mazeCells[cell_x][cell_y].setWall(2);
+                mazeCells[cell_x + 1][cell_y].setWall(1);
             }
 
             break;
-        /// Place eastern wall
+        /// Place eastern wall on the cell and western wall on the cell on the left
         case 3:
 
-            mazeCells[cell_x][cell_y].setWall(orientation);
-
-            if (cell_x != 0 && cell_x != CELL_COUNT - 1)
+            if (cell_y != 0)
             {
-                mazeCells[cell_x][cell_y].setWall();
+                mazeCells[cell_x][cell_y].setWall(3);
+                mazeCells[cell_x][cell_y - 1].setWall(4);
             }
 
             break;
-        /// Place western wall
+        /// Place western wall on the cell and eastern wall on the cell on the right
         case 4:
 
-            mazeCells[cell_x][cell_y].setWall(orientation);
-
-            if (cell_x != 0 && cell_x != CELL_COUNT - 1)
+            if (cell_y != CELL_COUNT - 1)
             {
-                mazeCells[cell_x][cell_y].setWall();
+                mazeCells[cell_x][cell_y].setWall(4);
+                mazeCells[cell_x][cell_y + 1].setWall(3);
             }
 
             break;
@@ -92,3 +94,12 @@ void Maze::placeWall(int cell_x, int cell_y, int orientation)
 
 }
 
+void Maze::setFloodVal(int val,int x, int y)
+{
+    mazeCells[x][y].setFloodVal(val);
+}
+
+void Maze::setVisited(int val, int x, int y)
+{
+    mazeCells[x][y].setVisited(val);
+}

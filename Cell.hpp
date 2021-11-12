@@ -11,8 +11,10 @@ class Cell
 {
 private:
 
-    int x;
-    int y;
+    int x;                  ///  Cell row.
+    int y;                  ///  Cell column.
+    int floodVal;           ///  Value given to cell by Floodfill.
+    int visited;
 
     int wallNorth;
     int wallSouth;
@@ -24,18 +26,27 @@ public:
     ///  Create cell with no walls initially
     Cell();
 
-    /// Deconstructor
+    ///  Deconstructor
     ~Cell();
 
-    /// Used by Maze.hpp to set the cell's coordinates
-    void setCoords(int x, int y);
+    ///  Used by Maze.hpp to set the cell's coordinates
+    void setCoords(int new_x, int new_y);
 
-    /// Used by Maze.hpp to set a found wall to the corresponding cell
+    ///  Used by Maze.hpp to set the Manhattan distance of cell from current coordinates
+    void setFloodVal(int val);
+
+    ///  Used by Maze.hpp to set a found wall to the corresponding cell
     void setWall(int orientation);
+
+    ///  Used by Maze.hpp to set the visited flag to each cells
+    void setVisited(int val);
 };
 
 Cell::Cell()
-{
+{   
+    visited = 0;
+    floodVal = 0;
+
     wallNorth = 0;
     wallSouth = 0;
     wallEast = 0;
@@ -50,6 +61,11 @@ void Cell::setCoords(int new_x, int new_y)
 {
     x = new_x;
     y = new_y;
+}
+
+void Cell::setFloodVal(int val)
+{
+    floodVal = val;
 }
 
 ///  Orientation: 1 for North, 2 for South, 3 for East, 4 for West
@@ -73,4 +89,9 @@ void Cell::setWall(int orientation)
         std::cout << "A problem occured in setWall" << std::endl;
         break;
     }
+}
+
+void Cell::setVisited(int val)
+{
+    visited = val;
 }
