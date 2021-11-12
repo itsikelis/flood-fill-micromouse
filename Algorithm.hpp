@@ -30,6 +30,8 @@ public:
     Algorithm();
     ~Algorithm();
 
+    void printTest(Maze *maze);
+
     /// Refloods the maze.
     void reflood(Maze *maze, int curr_x, int curr_y);
 
@@ -45,6 +47,11 @@ Algorithm::Algorithm()
 Algorithm::~Algorithm()
 {
 
+}
+
+void Algorithm::printTest(Maze *maze)
+{
+    maze->printMazeFloodVal();
 }
 
 void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)

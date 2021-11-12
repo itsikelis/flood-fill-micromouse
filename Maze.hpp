@@ -48,6 +48,11 @@ Maze::Maze()
     }
 }
 
+Maze::~Maze()
+{
+
+}
+
 /// placeWall avoids placing walls outside of maze borders
 void Maze::placeWall(int cell_x, int cell_y, int orientation)
 {
@@ -99,7 +104,7 @@ void Maze::placeWall(int cell_x, int cell_y, int orientation)
 
 int Maze::getFloodVal(int x, int y)
 {
-    mazeCells[x][y].getFloodVal();
+    return mazeCells[x][y].getFloodVal();
 }
 
 void Maze::setFloodVal(int val,int x, int y)
@@ -114,9 +119,9 @@ void Maze::setVisited(int val, int x, int y)
 
 void Maze::printMazeFloodVal()
 {
-    for(int i = 0; i <= CELL_COUNT; i++)
+    for(int i = 0; i < CELL_COUNT; i++)
     {
-        for(int j = 0; i <= CELL_COUNT; i++)
+        for(int j = 0; j < CELL_COUNT; j++)
         {
             std::cout << " " << mazeCells[i][j].getFloodVal() << " " << "\t";
         }
