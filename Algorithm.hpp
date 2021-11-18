@@ -76,16 +76,11 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
         }
     }
 
-    ///  Set goal cells as visited and push to queue.
+    ///  Set goal cells as visited.
     maze->setVisited(1, (CELL_COUNT / 2) - 1, (CELL_COUNT / 2) - 1) ;                   ///  Cell(7,7).visited = 1.
     maze->setVisited(1, CELL_COUNT / 2, (CELL_COUNT / 2) - 1);                          ///  Cell(8,7).visited = 1.
     maze->setVisited(1, (CELL_COUNT / 2) - 1, CELL_COUNT / 2);                          ///  Cell(7,8).visited = 1.
     maze->setVisited(1, CELL_COUNT / 2, CELL_COUNT / 2);                                ///  Cell(8,8).visited = 1.
-
-    processQueue.push(Coordinate((CELL_COUNT / 2) - 1, (CELL_COUNT / 2) - 1));          ///  Cell(7,7) pushed.
-    processQueue.push(Coordinate(CELL_COUNT / 2, (CELL_COUNT / 2) - 1));                ///  Cell(8,7) pushed.
-    processQueue.push(Coordinate((CELL_COUNT / 2) - 1, CELL_COUNT / 2));                ///  Cell(7,8) pushed.
-    processQueue.push(Coordinate(CELL_COUNT / 2, CELL_COUNT / 2));                      ///  Cell(8,8) pushed.
 
     ///  Zero the floodval of the goal cells.
     maze->setFloodVal(0, (CELL_COUNT / 2) - 1, (CELL_COUNT / 2) - 1);                   ///  Cell(7,7).floodVal = 0.
@@ -93,8 +88,15 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
     maze->setFloodVal(0, (CELL_COUNT / 2) - 1, CELL_COUNT / 2);                         ///  Cell(7,8).floodVal = 0.
     maze->setFloodVal(0, CELL_COUNT / 2, CELL_COUNT / 2);                               ///  Cell(8,8).floodVal = 0.
 
+    ///  Push goal cells' coordinates to queue.
+    processQueue.push(Coordinate((CELL_COUNT / 2) - 1, (CELL_COUNT / 2) - 1)); ///  Cell(7,7) pushed.
+    //processQueue.push(Coordinate(CELL_COUNT / 2, (CELL_COUNT / 2) - 1));       ///  Cell(8,7) pushed.
+    //processQueue.push(Coordinate((CELL_COUNT / 2) - 1, CELL_COUNT / 2));       ///  Cell(7,8) pushed.
+    //processQueue.push(Coordinate(CELL_COUNT / 2, CELL_COUNT / 2));             ///  Cell(8,8) pushed.
+
     while (!processQueue.empty())
     {   
+        std::cout << processQueue.size() << std::endl;
         ///  Get the next cell to be processed and remove it from the queue.
         Coordinate currentCell = processQueue.front();
         processQueue.pop();
@@ -102,22 +104,33 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
         ///  Check northern neighbour.
         if ( checkNeighbour(maze, currentCell, 1) )
         {
-            /// Increment neighbour's floodval.
+            std::cout << "Neighbour checked" << std::endl;
+            /// Increment northern neighbour's floodval.
+            int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);        ///  Get current cell's floodVal.
+            maze->setFloodVal(val + 1, currentCell.coordX, currentCell.coordY - 1);     ///  Increment neighbour.
         }
         ///  Check southern neighbour.
         else if ( checkNeighbour(maze, currentCell, 2) )
         {
-
+            std::cout << "Neighbour checked" << std::endl;
+            /// Increment southern neighbour's floodval.
+            int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);        ///  Get current cell's floodVal.
+            maze->setFloodVal(val + 1, currentCell.coordX, currentCell.coordY + 1);     ///  Increment neighbour.
         }
         ///  Check eastern neighbour.
         else if (checkNeighbour(maze, currentCell, 3))
         {
-
+            std::cout << "Neighbour checked" << std::endl;
+            /// Increment northern neighbour's floodval.
+            int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);        ///  Get current cell's floodVal.
+            maze->setFloodVal(val + 1, currentCell.coordX + 1, currentCell.coordY);     ///  Increment neighbour.
         }
         ///  Check western neighbour.
         else if (checkNeighbour(maze, currentCell, 4))
         {
-
+            /// Increment northern neighbour's floodval.
+            int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);        ///  Get current cell's floodVal.
+            maze->setFloodVal(val + 1, currentCell.coordX - 1, currentCell.coordY);     ///  Increment neighbour.
         }
         else 
         {
@@ -174,7 +187,7 @@ int Algorithm::checkNeighbour(Maze *maze, Coordinate coord, int orientation)
         {
             return 0;       ///  If cell is at eastern border, return 0.
         }
-        else if (!maze->hasWall(coord.coordX, coord.coordY, orientation) && !maze->isVisited(coord.coordX + 1, coord.coordY))
+        else if (!maze->hasWall(coord.coordX, coord.coordY, orientation) && !maze->isVisited(coord.coordX -+ 1, coord.coordY))
         {
             return 1;       ///  Neighbour has no wall on that direction and is not marked as visited.
         }

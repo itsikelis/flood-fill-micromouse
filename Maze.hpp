@@ -39,19 +39,23 @@ public:
 
 Maze::Maze()
 {
-    for (int i = 0; i <= CELL_COUNT; i++)
+    for (int i = 0; i <= CELL_COUNT - 1; i++)
     {
-        mazeCells[0][i].setWall(1);          ///  Place northern perimeter walls.
-        mazeCells[CELL_COUNT][i].setWall(2); ///  Place southern perimeter walls.
-        mazeCells[i][0].setWall(3);          ///  Place eastern perimeter walls.
-        mazeCells[i][CELL_COUNT].setWall(4); ///  Place western perimeter walls.
 
-        ///  Set the coordinates of each cell in the maze
-        ///  REVIEW Check if having cell coords as a variable is really nesessary
-        for (int j = 0; j <= CELL_COUNT; j++)
+        ///  Set the coordinates of each cell in the maze.
+        ///  REVIEW Check if having cell coords as a variable is really nesessary.
+        ///  It is not needed, but it helps when looking at maze cells during debugging.
+        for (int j = 0; j <= CELL_COUNT - 1; j++)
         {
             mazeCells[i][j].setCoords(i, j);
         }
+
+        mazeCells[0][i].setWall(1);             ///  Place northern perimeter walls.
+        mazeCells[CELL_COUNT - 1][i].setWall(2);    ///  Place southern perimeter walls.
+        mazeCells[i][0].setWall(3);             ///  Place eastern perimeter walls.
+        mazeCells[i][CELL_COUNT - 1].setWall(4);    ///  Place western perimeter walls.
+
+
     }
 }
 
