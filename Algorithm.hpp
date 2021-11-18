@@ -90,9 +90,9 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
 
     ///  Push goal cells' coordinates to queue.
     processQueue.push(Coordinate((CELL_COUNT / 2) - 1, (CELL_COUNT / 2) - 1)); ///  Cell(7,7) pushed.
-    //processQueue.push(Coordinate(CELL_COUNT / 2, (CELL_COUNT / 2) - 1));       ///  Cell(8,7) pushed.
-    //processQueue.push(Coordinate((CELL_COUNT / 2) - 1, CELL_COUNT / 2));       ///  Cell(7,8) pushed.
-    //processQueue.push(Coordinate(CELL_COUNT / 2, CELL_COUNT / 2));             ///  Cell(8,8) pushed.
+    processQueue.push(Coordinate(CELL_COUNT / 2, (CELL_COUNT / 2) - 1));       ///  Cell(8,7) pushed.
+    processQueue.push(Coordinate((CELL_COUNT / 2) - 1, CELL_COUNT / 2));       ///  Cell(7,8) pushed.
+    processQueue.push(Coordinate(CELL_COUNT / 2, CELL_COUNT / 2));             ///  Cell(8,8) pushed.
 
     while (!processQueue.empty())
     {   
