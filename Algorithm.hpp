@@ -31,11 +31,16 @@ public:
     ~Algorithm();
 
     void printTest(Maze *maze);
+    void printTest2(Maze *maze);
 
-    /// Refloods the maze.
+    ///  Refloods the maze.
     void reflood(Maze *maze, int curr_x, int curr_y);
 
-    /// Returns the absolute path to the maze's center
+    ///  Checks if the neighbouring cell can be accessed 
+    ///  (there is no wall between them and the cell has not been visited before).
+    int checkNeighbour(Maze *maze, Coordinate coord, int orientation);
+
+    ///  Returns the absolute path to the maze's center
     std::string getPath();
 };
 
@@ -50,6 +55,12 @@ Algorithm::~Algorithm()
 }
 
 void Algorithm::printTest(Maze *maze)
+{
+    // maze->printMazeFloodVal();
+    printTest2(maze);
+}
+
+void Algorithm::printTest2(Maze *maze)
 {
     maze->printMazeFloodVal();
 }
@@ -85,15 +96,117 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
     while (!processQueue.empty())
     {   
         ///  Get the next cell to be processed and remove it from the queue.
-        Coordinate cuurentCell = processQueue.front();
+        Coordinate currentCell = processQueue.front();
         processQueue.pop();
 
-        ///  Check its northern neighbour.
+        ///  Check northern neighbour.
+        if ( checkNeighbour(maze, currentCell, 1) )
+        {
+            /// Increment neighbour's floodval.
+        }
+        ///  Check southern neighbour.
+        else if ( checkNeighbour(maze, currentCell, 2) )
+        {
 
-        ///  Check its southern neighbour.
+        }
+        ///  Check eastern neighbour.
+        else if (checkNeighbour(maze, currentCell, 3))
+        {
 
-        ///  Check its eastern neighbour.
+        }
+        ///  Check western neighbour.
+        else if (checkNeighbour(maze, currentCell, 4))
+        {
 
-        ///  Check its western neighbour.
+        }
+        else 
+        {
+            std::cout << "Something went wrong with reflood." << std::endl;
+        }
     }
+}
+
+///  Orientation: 1 for North, 2 for South, 3 for East, 4 for West
+int Algorithm::checkNeighbour(Maze *maze, Coordinate coord, int orientation)
+{
+    switch (orientation)
+    {
+    ///  Check northern neighbour.
+    case 1:
+
+        if (coord.coordX == 0)
+        {
+            return 0;       ///  If cell is at northern border, return 0.
+        }
+        else if (!maze->hasWall(coord.coordX, coord.coordY, orientation) && !maze->isVisited(coord.coordX, coord.coordY - 1))
+        {
+            return 1;       ///  Neighbour has no wall on that direction and is not marked as visited.
+        }
+        else
+        {
+            return 0;       ///  Neighbour has wall on that direction or is marked as visited.
+        }
+
+    break;
+
+    ///  Check southern neighbour.
+    case 2:
+
+        if (coord.coordX == CELL_COUNT - 1)
+        {
+            return 0;       ///  If cell is at southern border, return 0.
+        }
+        else if (!maze->hasWall(coord.coordX, coord.coordY, orientation) && !maze->isVisited(coord.coordX, coord.coordY + 1))
+        {
+            return 1;       ///  Neighbour has no wall on that direction and is not marked as visited.
+        }
+        else
+        {
+            return 0;       ///  Neighbour has wall on that direction or is marked as visited.
+        }
+
+    break;
+
+    ///  Check eastern neighbour.
+    case 3:
+
+        if (coord.coordY == CELL_COUNT - 1)
+        {
+            return 0;       ///  If cell is at eastern border, return 0.
+        }
+        else if (!maze->hasWall(coord.coordX, coord.coordY, orientation) && !maze->isVisited(coord.coordX + 1, coord.coordY))
+        {
+            return 1;       ///  Neighbour has no wall on that direction and is not marked as visited.
+        }
+        else
+        {
+            return 0;       ///  Neighbour has wall on that direction or is marked as visited.
+        }
+
+    break;
+
+    /// Check western neighbour.
+    case 4:
+
+        if (coord.coordY == 0)
+        {
+            return 0;       ///  If cell is at western border, return 0.
+        }
+        else if (!maze->hasWall(coord.coordX, coord.coordY, orientation) && !maze->isVisited(coord.coordX - 1, coord.coordY))
+        {
+            return 1;       ///  Neighbour has no wall on that direction and is not marked as visited.
+        }
+        else
+        {
+            return 0;       ///  Neighbour has wall on that direction or is marked as visited.
+        }
+
+        break;
+    default:
+        
+        std::cout << "Something went wrong with checkNeighbour." << std::endl;
+
+        break;
+    }
+    
 }

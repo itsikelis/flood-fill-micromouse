@@ -41,8 +41,15 @@ public:
     ///  Used by Maze.hpp to set a found wall to the corresponding cell.
     void setWall(int orientation);
 
+    ///  Used by Maze.hpp to check for walls in given orientation.
+    int hasWall(int orientation);
+
     ///  Used by Maze.hpp to set the visited flag to each cells.
     void setVisited(int val);
+
+    ///  Used by Maze.hpp to check if the cell has been visited before by the Algorithm.
+    int isVisited();
+
 };
 
 Cell::Cell()
@@ -99,7 +106,74 @@ void Cell::setWall(int orientation)
     }
 }
 
+int Cell::hasWall(int orientation)
+{
+    switch (orientation)
+    {
+    ///  Check for northern wall.
+    case 1:
+        if(wallNorth == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+        break;
+    ///  Check for southern wall.
+    case 2:
+        if (wallSouth == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+        break;
+    ///  Check for eastern wall.
+    case 3:
+        if (wallEast == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+        break;
+    ///  Check for western wall.
+    case 4:
+        if (wallWest == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+        break;
+    default:
+        std::cout << "Something went wrong in checkWall" << std::endl;
+        return 1;
+        break;
+    }
+}
+
 void Cell::setVisited(int val)
 {
     visited = val;
+}
+
+int Cell::isVisited()
+{
+    if (!visited)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
 }
