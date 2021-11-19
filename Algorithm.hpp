@@ -94,6 +94,7 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
     processQueue.push(Coordinate((CELL_COUNT / 2) - 1, CELL_COUNT / 2));       ///  Cell(7,8) pushed.
     processQueue.push(Coordinate(CELL_COUNT / 2, CELL_COUNT / 2));             ///  Cell(8,8) pushed.
 
+    ///  REVIEW: Fix check coordinates. Neighbour checking coordinates are wrong. Northern neighbour checks eastern one etc.
     while (!processQueue.empty())
     {   
         std::cout << processQueue.size() << std::endl;
@@ -123,7 +124,7 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
             std::cout << "Neighbour checked" << std::endl;
             /// Increment northern neighbour's floodval.
             int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);        ///  Get current cell's floodVal.
-            maze->setFloodVal(val + 1, currentCell.coordX + 1, currentCell.coordY);     ///  Increment neighbour.
+            maze->setFloodVal(val + 1, currentCell.coordX, currentCell.coordY);     ///  Increment neighbour.
         }
         ///  Check western neighbour.
         else if (checkNeighbour(maze, currentCell, 4))
