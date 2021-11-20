@@ -12,12 +12,14 @@ int main()
 
     thisAlgorithm.printTest(&thisMaze);
 
-    thisMaze.placeWall(0,0,4);
-    thisMaze.placeWall(0,1,2);
+    // thisMaze.placeWall(0,0,4);
+    // thisMaze.placeWall(0,1,2);
 
     thisAlgorithm.reflood(&thisMaze, 0, 0);
 
     thisAlgorithm.printTest(&thisMaze);
+
+    std::cout << "All Done!" << std::endl;
 
     return 0;
 }

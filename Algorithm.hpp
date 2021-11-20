@@ -97,7 +97,7 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
     ///  REVIEW: Fix check coordinates. Neighbour checking coordinates are wrong. Northern neighbour checks eastern one etc.
     while (!processQueue.empty())
     {   
-        std::cout << processQueue.size() << std::endl;
+        std::cout << "Queue Size:" << processQueue.size() << std::endl;
         ///  Get the next cell to be processed and remove it from the queue.
         Coordinate currentCell = processQueue.front();
         processQueue.pop();
@@ -105,37 +105,38 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
         ///  Check northern neighbour.
         if ( checkNeighbour(maze, currentCell, 1) )
         {
-            std::cout << "Neighbour checked" << std::endl;
             /// Increment northern neighbour's floodval.
-            int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);        ///  Get current cell's floodVal.
-            maze->setFloodVal(val + 1, currentCell.coordX, currentCell.coordY - 1);     ///  Increment neighbour.
+            int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);            ///  Get current cell's floodVal.
+            maze->setFloodVal(val + 1, currentCell.coordX - 1, currentCell.coordY);         ///  Increment neighbour.
+            maze->setVisited(1, currentCell.coordX - 1, currentCell.coordY);
+            processQueue.emplace(currentCell.coordX - 1, currentCell.coordY);
         }
         ///  Check southern neighbour.
-        else if ( checkNeighbour(maze, currentCell, 2) )
+        if ( checkNeighbour(maze, currentCell, 2) )
         {
-            std::cout << "Neighbour checked" << std::endl;
             /// Increment southern neighbour's floodval.
-            int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);        ///  Get current cell's floodVal.
-            maze->setFloodVal(val + 1, currentCell.coordX, currentCell.coordY + 1);     ///  Increment neighbour.
+            int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);            ///  Get current cell's floodVal.
+            maze->setFloodVal(val + 1, currentCell.coordX + 1, currentCell.coordY);         ///  Increment neighbour.
+            maze->setVisited(1, currentCell.coordX + 1, currentCell.coordY);
+            processQueue.emplace(currentCell.coordX + 1, currentCell.coordY);
         }
         ///  Check eastern neighbour.
-        else if (checkNeighbour(maze, currentCell, 3))
+        if (checkNeighbour(maze, currentCell, 3))
         {
-            std::cout << "Neighbour checked" << std::endl;
             /// Increment northern neighbour's floodval.
-            int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);        ///  Get current cell's floodVal.
-            maze->setFloodVal(val + 1, currentCell.coordX, currentCell.coordY);     ///  Increment neighbour.
+            int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);            ///  Get current cell's floodVal.
+            maze->setFloodVal(val + 1, currentCell.coordX, currentCell.coordY - 1);         ///  Increment neighbour.
+            maze->setVisited(1, currentCell.coordX, currentCell.coordY - 1);
+            processQueue.emplace(currentCell.coordX, currentCell.coordY - 1);
         }
         ///  Check western neighbour.
-        else if (checkNeighbour(maze, currentCell, 4))
+        if (checkNeighbour(maze, currentCell, 4))
         {
             /// Increment northern neighbour's floodval.
-            int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);        ///  Get current cell's floodVal.
-            maze->setFloodVal(val + 1, currentCell.coordX - 1, currentCell.coordY);     ///  Increment neighbour.
-        }
-        else 
-        {
-            std::cout << "Something went wrong with reflood." << std::endl;
+            int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);            ///  Get current cell's floodVal.
+            maze->setFloodVal(val + 1, currentCell.coordX, currentCell.coordY + 1);         ///  Increment neighbour.
+            maze->setVisited(1, currentCell.coordX, currentCell.coordY + 1);
+            processQueue.emplace(currentCell.coordX, currentCell.coordY + 1);
         }
     }
 }
@@ -152,7 +153,7 @@ int Algorithm::checkNeighbour(Maze *maze, Coordinate coord, int orientation)
         {
             return 0;       ///  If cell is at northern border, return 0.
         }
-        else if (!maze->hasWall(coord.coordX, coord.coordY, orientation) && !maze->isVisited(coord.coordX, coord.coordY - 1))
+        else if (!maze->hasWall(coord.coordX, coord.coordY, orientation) && !maze->isVisited(coord.coordX - 1, coord.coordY))
         {
             return 1;       ///  Neighbour has no wall on that direction and is not marked as visited.
         }
@@ -170,7 +171,7 @@ int Algorithm::checkNeighbour(Maze *maze, Coordinate coord, int orientation)
         {
             return 0;       ///  If cell is at southern border, return 0.
         }
-        else if (!maze->hasWall(coord.coordX, coord.coordY, orientation) && !maze->isVisited(coord.coordX, coord.coordY + 1))
+        else if (!maze->hasWall(coord.coordX, coord.coordY, orientation) && !maze->isVisited(coord.coordX + 1, coord.coordY))
         {
             return 1;       ///  Neighbour has no wall on that direction and is not marked as visited.
         }
@@ -184,11 +185,11 @@ int Algorithm::checkNeighbour(Maze *maze, Coordinate coord, int orientation)
     ///  Check eastern neighbour.
     case 3:
 
-        if (coord.coordY == CELL_COUNT - 1)
+        if (coord.coordY == 0)
         {
             return 0;       ///  If cell is at eastern border, return 0.
         }
-        else if (!maze->hasWall(coord.coordX, coord.coordY, orientation) && !maze->isVisited(coord.coordX -+ 1, coord.coordY))
+        else if (!maze->hasWall(coord.coordX, coord.coordY, orientation) && !maze->isVisited(coord.coordX, coord.coordY - 1))
         {
             return 1;       ///  Neighbour has no wall on that direction and is not marked as visited.
         }
@@ -202,11 +203,11 @@ int Algorithm::checkNeighbour(Maze *maze, Coordinate coord, int orientation)
     /// Check western neighbour.
     case 4:
 
-        if (coord.coordY == 0)
+        if (coord.coordY == CELL_COUNT - 1)
         {
             return 0;       ///  If cell is at western border, return 0.
         }
-        else if (!maze->hasWall(coord.coordX, coord.coordY, orientation) && !maze->isVisited(coord.coordX - 1, coord.coordY))
+        else if (!maze->hasWall(coord.coordX, coord.coordY, orientation) && !maze->isVisited(coord.coordX, coord.coordY + 1))
         {
             return 1;       ///  Neighbour has no wall on that direction and is not marked as visited.
         }

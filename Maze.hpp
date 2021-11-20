@@ -137,6 +137,12 @@ void Maze::setFloodVal(int val,int x, int y)
     mazeCells[x][y].setFloodVal(val);
 }
 
+/// <summary>
+/// 
+/// </summary>
+/// <param name="val"></param>
+/// <param name="x"></param>
+/// <param name="y"></param>
 void Maze::setVisited(int val, int x, int y)
 {
     mazeCells[x][y].setVisited(val);
