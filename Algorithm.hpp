@@ -88,7 +88,6 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
     ///  REVIEW: Fix check coordinates. Neighbour checking coordinates are wrong. Northern neighbour checks eastern one etc.
     while (!processQueue.qIsEmpty())
     {   
-        std::cout << "Queue Size:" << processQueue.size() << std::endl;
         ///  Get the next cell to be processed and remove it from the queue.
         Coordinate currentCell = processQueue.qFront();
         processQueue.qPop();
@@ -100,37 +99,37 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
         if ( checkNeighbour(maze, currentCell, 1) )
         {
             /// Increment northern neighbour's floodval.
-            int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);            ///  Get current cell's floodVal.
-            maze->setFloodVal(val + 1, currentCell.coordX - 1, currentCell.coordY);         ///  Increment neighbour.
-            maze->setVisited(1, currentCell.coordX - 1, currentCell.coordY);
-            processQueue.emplace(currentCell.coordX - 1, currentCell.coordY);
+            maze->setVisited(1, currentCell.coordX - 1, currentCell.coordY);            ///  Set neighbour as visited.
+            maze->setFloodVal(val + 1, currentCell.coordX - 1, currentCell.coordY);     ///  Increment neighbour.
+            processQueue.qPush(currentCell.coordX - 1, currentCell.coordY);             ///  Push neighbour to queue.
         }
         ///  Check southern neighbour.
         if ( checkNeighbour(maze, currentCell, 2) )
         {
             /// Increment southern neighbour's floodval.
-            int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);            ///  Get current cell's floodVal.
-            maze->setFloodVal(val + 1, currentCell.coordX + 1, currentCell.coordY);         ///  Increment neighbour.
-            maze->setVisited(1, currentCell.coordX + 1, currentCell.coordY);
-            processQueue.emplace(currentCell.coordX + 1, currentCell.coordY);
+            maze->setFloodVal(val + 1, currentCell.coordX + 1, currentCell.coordY);     ///  Increment neighbour.
+            maze->setVisited(1, currentCell.coordX + 1, currentCell.coordY);            ///  Set neighbour as visited.
+            processQueue.qPush(currentCell.coordX + 1, currentCell.coordY);             ///  Push neighbour to queue.
         }
         ///  Check eastern neighbour.
         if (checkNeighbour(maze, currentCell, 3))
         {
-            /// Increment northern neighbour's floodval.
-            int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);            ///  Get current cell's floodVal.
-            maze->setFloodVal(val + 1, currentCell.coordX, currentCell.coordY - 1);         ///  Increment neighbour.
-            maze->setVisited(1, currentCell.coordX, currentCell.coordY - 1);
-            processQueue.emplace(currentCell.coordX, currentCell.coordY - 1);
+            /// Increment eastern neighbour's floodval.
+            maze->setVisited(1, currentCell.coordX, currentCell.coordY - 1);            ///  Set neighbour as visited.
+            maze->setFloodVal(val + 1, currentCell.coordX, currentCell.coordY - 1);     ///  Increment neighbour.
+            processQueue.qPush(currentCell.coordX, currentCell.coordY - 1);             ///  Push neighbour to queue.
         }
         ///  Check western neighbour.
         if (checkNeighbour(maze, currentCell, 4))
         {
-            /// Increment northern neighbour's floodval.
-            int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);            ///  Get current cell's floodVal.
-            maze->setFloodVal(val + 1, currentCell.coordX, currentCell.coordY + 1);         ///  Increment neighbour.
-            maze->setVisited(1, currentCell.coordX, currentCell.coordY + 1);
-            processQueue.emplace(currentCell.coordX, currentCell.coordY + 1);
+            /// Increment eastern neighbour's floodval.
+            maze->setVisited(1, currentCell.coordX, currentCell.coordY + 1);            ///  Set neighbour as visited.
+            maze->setFloodVal(val + 1, currentCell.coordX, currentCell.coordY + 1);     ///  Increment neighbour.
+            processQueue.qPush(currentCell.coordX - 1, currentCell.coordY + 1);         ///  Push neighbour to queue.
+        }
+        else 
+        {
+            std::cout << "Something went wrong with reflood." << std::endl;
         }
     }
 }
