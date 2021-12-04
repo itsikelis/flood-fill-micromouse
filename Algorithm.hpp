@@ -24,11 +24,8 @@ public:
     void printTest(Maze *maze);
     void printTest2(Maze *maze);
 
-    ///  Refloods the maze.
     void reflood(Maze *maze, int curr_x, int curr_y);
 
-    ///  Checks if the neighbouring cell can be accessed 
-    ///  (there is no wall between them and the cell has not been visited before).
     int checkNeighbour(Maze *maze, Coordinate coord, int orientation);
 
     ///  Returns the absolute path to the maze's center
@@ -56,6 +53,15 @@ void Algorithm::printTest2(Maze *maze)
     maze->printMazeFloodVal();
 }
 
+/**
+ * @brief Refloods the maze.
+ * 
+ * REVIEW  curr_x and curr_y might not be needed for reflood and only needed for findPath
+ * 
+ * @param maze Pointer to maze.
+ * @param curr_x Current x coordinate.
+ * @param curr_y Current y coordinate.
+ */
 void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
 {
     ///  Set all cells on maze as unvisited.
@@ -85,7 +91,6 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
     processQueue.qPush((CELL_COUNT / 2) - 1, CELL_COUNT / 2);               ///  Cell(7,8) pushed.
     processQueue.qPush(CELL_COUNT / 2, CELL_COUNT / 2);                     ///  Cell(8,8) pushed.
 
-    ///  REVIEW: Fix check coordinates. Neighbour checking coordinates are wrong. Northern neighbour checks eastern one etc.
     while (!processQueue.qIsEmpty())
     {   
         ///  Get the next cell to be processed and remove it from the queue.
@@ -134,7 +139,14 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
     }
 }
 
-///  Orientation: 1 for North, 2 for South, 3 for East, 4 for West
+/**
+ * @brief Method to check whether the neighbouring cell can be accessed from the current cell (no wall between them and neighbour has not been visited before). 
+ * 
+ * @param maze Pointer to maze.
+ * @param coord The current cell.
+ * @param orientation 1 for North, 2 for South, 3 for East, 4 for West.
+ * @return int 
+ */
 int Algorithm::checkNeighbour(Maze *maze, Coordinate coord, int orientation)
 {
     switch (orientation)
