@@ -69,7 +69,7 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
     {
         for (int j = 0; i <= CELL_COUNT; i++)
         {
-            maze->setVisited(0, i, j);
+            maze->setUnVisited(i, j);
         }
     }
 
@@ -80,10 +80,10 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
     maze->setFloodVal(0, CELL_COUNT / 2, CELL_COUNT / 2);                   ///  Cell(8,8).floodVal = 0.
 
     ///  Set goal cells as visited.
-    maze->setVisited(1, (CELL_COUNT / 2) - 1, (CELL_COUNT / 2) - 1);        ///  Cell(7,7).visited = 1.
-    maze->setVisited(1, CELL_COUNT / 2, (CELL_COUNT / 2) - 1);              ///  Cell(8,7).visited = 1.
-    maze->setVisited(1, (CELL_COUNT / 2) - 1, CELL_COUNT / 2);              ///  Cell(7,8).visited = 1.
-    maze->setVisited(1, CELL_COUNT / 2, CELL_COUNT / 2);                    ///  Cell(8,8).visited = 1.
+    maze->setVisited((CELL_COUNT / 2) - 1, (CELL_COUNT / 2) - 1);        ///  Cell(7,7).visited = 1.
+    maze->setVisited(CELL_COUNT / 2, (CELL_COUNT / 2) - 1);              ///  Cell(8,7).visited = 1.
+    maze->setVisited((CELL_COUNT / 2) - 1, CELL_COUNT / 2);              ///  Cell(7,8).visited = 1.
+    maze->setVisited(CELL_COUNT / 2, CELL_COUNT / 2);                    ///  Cell(8,8).visited = 1.
 
     ///  Push goal cells' coordinates to queue.
     processQueue.qPush((CELL_COUNT / 2) - 1, (CELL_COUNT / 2) - 1);         ///  Cell(7,7) pushed.
@@ -104,7 +104,7 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
         if ( checkNeighbour(maze, currentCell, 1) )
         {
             /// Increment northern neighbour's floodval.
-            maze->setVisited(1, currentCell.coordX - 1, currentCell.coordY);            ///  Set neighbour as visited.
+            maze->setVisited(currentCell.coordX - 1, currentCell.coordY);            ///  Set neighbour as visited.
             maze->setFloodVal(val + 1, currentCell.coordX - 1, currentCell.coordY);     ///  Increment neighbour.
             processQueue.qPush(currentCell.coordX - 1, currentCell.coordY);             ///  Push neighbour to queue.
         }
@@ -112,15 +112,15 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
         if ( checkNeighbour(maze, currentCell, 2) )
         {
             /// Increment southern neighbour's floodval.
+            maze->setVisited(currentCell.coordX + 1, currentCell.coordY);            ///  Set neighbour as visited.
             maze->setFloodVal(val + 1, currentCell.coordX + 1, currentCell.coordY);     ///  Increment neighbour.
-            maze->setVisited(1, currentCell.coordX + 1, currentCell.coordY);            ///  Set neighbour as visited.
             processQueue.qPush(currentCell.coordX + 1, currentCell.coordY);             ///  Push neighbour to queue.
         }
         ///  Check eastern neighbour.
         if (checkNeighbour(maze, currentCell, 3))
         {
             /// Increment eastern neighbour's floodval.
-            maze->setVisited(1, currentCell.coordX, currentCell.coordY - 1);            ///  Set neighbour as visited.
+            maze->setVisited(currentCell.coordX, currentCell.coordY - 1);            ///  Set neighbour as visited.
             maze->setFloodVal(val + 1, currentCell.coordX, currentCell.coordY - 1);     ///  Increment neighbour.
             processQueue.qPush(currentCell.coordX, currentCell.coordY - 1);             ///  Push neighbour to queue.
         }
@@ -128,9 +128,9 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
         if (checkNeighbour(maze, currentCell, 4))
         {
             /// Increment eastern neighbour's floodval.
-            maze->setVisited(1, currentCell.coordX, currentCell.coordY + 1);            ///  Set neighbour as visited.
+            maze->setVisited(currentCell.coordX, currentCell.coordY + 1);            ///  Set neighbour as visited.
             maze->setFloodVal(val + 1, currentCell.coordX, currentCell.coordY + 1);     ///  Increment neighbour.
-            processQueue.qPush(currentCell.coordX - 1, currentCell.coordY + 1);         ///  Push neighbour to queue.
+            processQueue.qPush(currentCell.coordX, currentCell.coordY + 1);         ///  Push neighbour to queue.
         }
         else 
         {
@@ -140,7 +140,7 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
 }
 
 /**
- * @brief Method to check whether the neighbouring cell can be accessed from the current cell (no wall between them and neighbour has not been visited before). 
+ * @brief Method to check whether the neighbour cell can be accessed from the current cell (no wall between them and neighbour has not been visited before). 
  * 
  * @param maze Pointer to maze.
  * @param coord The current cell.

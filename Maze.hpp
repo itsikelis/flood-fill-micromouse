@@ -29,7 +29,8 @@ public:
     void setFloodVal(int val, int x, int y);
 
     ///  Mark cell as visited.
-    void setVisited(int val, int x, int y);
+    void setVisited(int x, int y);
+    void setUnVisited(int x, int y);
 
     ///  Return whether or not the maze cell has been visited.
     int isVisited(int cellX, int cellY);
@@ -37,6 +38,10 @@ public:
     void printMazeFloodVal();
 };
 
+/**
+ * @brief Construct a new Maze object.
+ * 
+ */
 Maze::Maze()
 {
     for (int i = 0; i <= CELL_COUNT - 1; i++)
@@ -59,13 +64,23 @@ Maze::Maze()
     }
 }
 
+/**
+ * @brief Destroy the Maze:: Maze object
+ * 
+ */
 Maze::~Maze()
 {
 
 }
 
-///  placeWall avoids placing walls outside of maze borders
-///  Orientation: 1 for North, 2 for South, 3 for East, 4 for West
+/**
+ * @brief Places a wall in the coordinate and orientation specified. Automatically avoids placing walls outside of maze borders.
+ * 
+ * 
+ * @param cellX 
+ * @param cellY 
+ * @param orientation 1 for North, 2 for South, 3 for East, 4 for West
+ */
 void Maze::placeWall(int cellX, int cellY, int orientation)
 {
     switch (orientation)
@@ -115,6 +130,15 @@ void Maze::placeWall(int cellX, int cellY, int orientation)
 }
 
 ///  Orientation: 1 for North, 2 for South, 3 for East, 4 for West
+
+/**
+ * @brief 
+ * 
+ * @param cellX 
+ * @param cellY 
+ * @param orientation 
+ * @return int 
+ */
 int Maze::hasWall(int cellX, int cellY, int orientation)
 {
     if ( mazeCells[cellX][cellY].hasWall(orientation) )
@@ -137,15 +161,20 @@ void Maze::setFloodVal(int val,int x, int y)
     mazeCells[x][y].setFloodVal(val);
 }
 
-/// <summary>
-/// 
-/// </summary>
-/// <param name="val"></param>
-/// <param name="x"></param>
-/// <param name="y"></param>
-void Maze::setVisited(int val, int x, int y)
+/**
+ * @brief Marks a cell as visited.
+ * 
+ * @param x Cell-to-be-marked x coordinate.
+ * @param y Cell-to-be-marked y coordinate.
+ */
+void Maze::setVisited(int x, int y)
 {
-    mazeCells[x][y].setVisited(val);
+    mazeCells[x][y].setVisited();
+}
+
+void Maze::setUnVisited(int x, int y)
+{
+    mazeCells[x][y].setUnVisited();
 }
 
 int Maze::isVisited(int cellX, int cellY)

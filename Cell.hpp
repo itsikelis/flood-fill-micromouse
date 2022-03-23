@@ -45,7 +45,9 @@ public:
     int hasWall(int orientation);
 
     ///  Used by Maze.hpp to set the visited flag to each cells.
-    void setVisited(int val);
+    void setVisited();
+
+    void setUnVisited();
 
     ///  Used by Maze.hpp to check if the cell has been visited before by the Algorithm.
     int isVisited();
@@ -161,9 +163,14 @@ int Cell::hasWall(int orientation)
     }
 }
 
-void Cell::setVisited(int val)
+void Cell::setVisited()
 {
-    visited = val;
+    visited = 1;
+}
+
+void Cell::setUnVisited()
+{
+    visited = 0;
 }
 
 int Cell::isVisited()
