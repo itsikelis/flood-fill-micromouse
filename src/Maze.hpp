@@ -199,4 +199,11 @@ void Maze::printMazeFloodVal()
         }
         std::cout << std::endl;
     }
+
+    std::cout << ""<<std::endl;
+
+    for(int i = 0; i < CELL_COUNT; i++)
+        std::cout << "///";
+    std::cout<<""<<std::endl;    
+    std::cout << ""<<std::endl;
 }
