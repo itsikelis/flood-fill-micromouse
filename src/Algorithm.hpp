@@ -65,9 +65,9 @@ void Algorithm::printTest2(Maze *maze)
 void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
 {
     ///  Set all cells on maze as unvisited.
-    for (int i = 0; i <= CELL_COUNT; i++)
+    for (int i = 0; i < CELL_COUNT; i++)
     {
-        for (int j = 0; i <= CELL_COUNT; i++)
+        for (int j = 0; i < CELL_COUNT; i++)
         {
             maze->setUnVisited(i, j);
         }
@@ -96,10 +96,11 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
         ///  Get the next cell to be processed and remove it from the queue.
         Coordinate currentCell = processQueue.qFront();
         processQueue.qPop();
-
+        
+        if(currentCell.coordX > CELL_COUNT-1 || currentCell.coordY > CELL_COUNT-1)
+            break;
         ///  Get current cell's floodVal.
         int val = maze->getFloodVal(currentCell.coordX, currentCell.coordY);
-
         ///  Check northern neighbour.
         if ( checkNeighbour(maze, currentCell, 1) )
         {
@@ -132,10 +133,10 @@ void Algorithm::reflood(Maze *maze, int curr_x, int curr_y)
             maze->setFloodVal(val + 1, currentCell.coordX, currentCell.coordY + 1);     ///  Increment neighbour.
             processQueue.qPush(currentCell.coordX, currentCell.coordY + 1);         ///  Push neighbour to queue.
         }
-        else 
-        {
-            std::cout << "Something went wrong with reflood." << std::endl;
-        }
+        //else 
+        //{
+        //    std::cout << "Something went wrong with reflood." << std::endl;
+        //}
     }
 }
 
